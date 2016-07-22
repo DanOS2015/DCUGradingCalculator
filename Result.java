@@ -29,7 +29,7 @@ public class Result extends AppCompatActivity
         else if(check == 2)
         {
             if (result >= 69.5)
-                gradeResult.setText("First Class Honours (1:1) (Compenstaion) ");
+                gradeResult.setText("First Class Honours (1:1) (Compensation) ");
             else if (result >= 59.5)
                 gradeResult.setText("Second Class Honours Grade 1 (2:1) (Compenstaion)");
             else if (result >= 49.5)
