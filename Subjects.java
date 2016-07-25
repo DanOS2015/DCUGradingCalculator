@@ -22,11 +22,11 @@ import static android.view.ViewGroup.LayoutParams.FILL_PARENT;
 import java.util.ArrayList;
 import android.text.TextUtils;
 
-//PLEAE NOTE: still working on error control and refactoring on this activity. Never the less still works when app used properly.
+//PLEASE NOTE: still working on error control and refactoring on this activity. Never the less still works when app used properly.
 public class Subjects extends AppCompatActivity implements OnClickListener
 {
     //create array of edittexts to record amount edittexts specified in last activity 
-    EditText [] inputs;
+    ArrayList<EditText> inputs;
     //button to calculate grade
     Button calculate;
     //scrollview in case number of subjects specified is big number and doesn't fit on mobile screen 
@@ -66,16 +66,8 @@ public class Subjects extends AppCompatActivity implements OnClickListener
         //get numOfSubjects integer from previous activity 
         Bundle extra = getIntent().getExtras();
         int result = extra.getInt("result");
-        //multiply result by 2, because we're going to have two edittexts (one for subject, one for credit) for each entry 
-        result = result * 2;
-        inputs = new EditText[result];
-        //use int j later when printing out subject number e.g.
-        //subject 1:
-        //subject 2: etc 
-        int j = 1;
-        int index = 0;
         //for loop to generate subject fields to enter grades 
-        for (int i=0 ;i < result; i = i + 2)
+        for (int i=0; i < result; i++)
         {
             //make a new layout for each row 
             LinearLayout row = new LinearLayout(this);
@@ -84,13 +76,11 @@ public class Subjects extends AppCompatActivity implements OnClickListener
             //make edittexts, set their input type to number, and add them to array 
             EditText numResult = new EditText(Subjects.this);
             numResult.setInputType(InputType.TYPE_CLASS_NUMBER);
-            inputs[index] = numResult;
-            index++;
+            inputs.add(numResult);
             numResult.setGravity(Gravity.CENTER);
             EditText gradeResult = new EditText(Subjects.this);
             gradeResult.setInputType(InputType.TYPE_CLASS_NUMBER);
-            inputs[index] = gradeResult;
-            index++;
+            inputs.add(gradeResult);
             //set the gravity of the edittexts to center 
             gradeResult.setGravity(Gravity.CENTER);
             numResult.setLayoutParams(params);
@@ -100,8 +90,7 @@ public class Subjects extends AppCompatActivity implements OnClickListener
             gradeResult.setHint("Credit");
             //add the edittexts and the textviews for subjects to the row view then add the row view to the main layout 
             row.addView(subject);
-            subject.setText("Subject " + j + ":");
-            j++;
+            subject.setText("Subject " + (i+1) + ":");
             row.addView(numResult);
             row.addView(gradeResult);
             layout.addView(row);
@@ -128,10 +117,10 @@ public class Subjects extends AppCompatActivity implements OnClickListener
         //use check for faileded subject 
         int check = 0;
         boolean failCheck = true;
-        for (int i = 0; i < inputs.length; i = i + 2)
+        for (int i = 0; i < inputs.size(); i = i + 2)
         {
-            num = Float.parseFloat(inputs[i].getText().toString());
-            cred = Float.parseFloat(inputs[i + 1].getText().toString());
+            num = Float.parseFloat(inputs.get(i).getText().toString());
+            cred = Float.parseFloat(inputs.get(i + 1).getText().toString());
             //if subject is failed set checks and add subject and credit to arraylist 
             if (num <= 39.0)
             {
@@ -164,7 +153,7 @@ public class Subjects extends AppCompatActivity implements OnClickListener
         //need min average of 45 to pass by compensation
         if(grade <= 44.5)
             return false;
-        for(int i = 0; i < subjects.size()-1; i=i+2)
+        for(int i = 0; i < subjects.size(); i=i+2)
         {
             //failed subject has to be min 35
             if(subjects.get(i) < 35.0)
