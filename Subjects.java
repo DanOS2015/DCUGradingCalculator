@@ -17,7 +17,7 @@ import static android.view.ViewGroup.LayoutParams.FILL_PARENT;
 import java.util.ArrayList;
 import android.text.TextUtils;
 
-//PLEASE NOTE: still working on error control and refactoring on this activity. Never the less still works when app used properly.
+
 public class Subjects extends AppCompatActivity implements OnClickListener
 {
     //create array of edittexts to record amount edittexts specified in last activity 
