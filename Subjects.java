@@ -2,22 +2,17 @@ package com.example.dan.dcugradingcalculator;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.content.Intent;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
-import android.view.ViewGroup.MarginLayoutParams;
-import com.example.dan.dcugradingcalculator.Result;
 import static android.view.ViewGroup.LayoutParams.FILL_PARENT;
 import java.util.ArrayList;
 import android.text.TextUtils;
@@ -119,6 +114,11 @@ public class Subjects extends AppCompatActivity implements OnClickListener
         boolean failCheck = true;
         for (int i = 0; i < inputs.size(); i = i + 2)
         {
+            //check if edittexts are empty 
+            if(TextUtils.isEmpty(inputs.get(i).getText().toString()) || TextUtils.isEmpty(inputs.get(i+1).getText().toString()))
+            {
+                return;
+            }
             num = Float.parseFloat(inputs.get(i).getText().toString());
             cred = Float.parseFloat(inputs.get(i + 1).getText().toString());
             //if subject is failed set checks and add subject and credit to arraylist 
