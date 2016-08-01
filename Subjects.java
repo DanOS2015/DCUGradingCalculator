@@ -26,6 +26,8 @@ public class Subjects extends AppCompatActivity implements OnClickListener
     Button calculate;
     //scrollview in case number of subjects specified is big number and doesn't fit on mobile screen 
     ScrollView sv;
+    //use this to display message if error encountered 
+    TextView error;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -94,6 +96,10 @@ public class Subjects extends AppCompatActivity implements OnClickListener
         LinearLayout buttonRow = new LinearLayout(this);
         buttonRow.addView(calculate);
         layout.addView(buttonRow);
+        //initialise error textview 
+        error = new TextView(this);
+        error.setTextColor(Color.parseColor("#d00d24"));
+        layout.addView(error);
         calculate.setOnClickListener((OnClickListener) this);
         //add the main layout to the scrollview and set the content view to the scrollview 
         sv.addView(layout);
@@ -117,6 +123,13 @@ public class Subjects extends AppCompatActivity implements OnClickListener
             //check if edittexts are empty 
             if(TextUtils.isEmpty(inputs.get(i).getText().toString()) || TextUtils.isEmpty(inputs.get(i+1).getText().toString()))
             {
+                error.setText("ERROR: PLEASE FILL IN ALL TEXT FIELDS");
+                return;
+            }
+            //check if all entries are valid 
+            else if(!checkValid(inputs))
+            {
+                error.setText("ERROR: PLEASE ENTER VALID NUMBERS, RESULTS BETWEEN 0 AND 100 AND CREDITS ADDING UP TO 60");
                 return;
             }
             num = Float.parseFloat(inputs.get(i).getText().toString());
@@ -167,6 +180,24 @@ public class Subjects extends AppCompatActivity implements OnClickListener
         }
         if(credSum > 10.0)
             return false;
+        return true;
+    }
+    //method to check if inputs are valid (results are between 0 and 100 and credits add up to 60)
+    public boolean checkValid(ArrayList<EditText> inputs)
+    {
+        float tmp = 0;
+        float total = 0;
+        for(int i = 0; i < inputs.size(); i = i+2)
+        {
+            tmp = Float.parseFloat(inputs.get(i).getText().toString());
+            if(tmp > 100.0)
+                return false;
+            tmp = Float.parseFloat(inputs.get(i+1).getText().toString());
+            total += tmp;
+        }
+        if(total > 60 || total < 60)
+            return false;
+
         return true;
     }
 
