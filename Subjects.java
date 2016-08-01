@@ -26,7 +26,7 @@ import android.text.TextUtils;
 public class Subjects extends AppCompatActivity implements OnClickListener
 {
     //create array of edittexts to record amount edittexts specified in last activity 
-    ArrayList<EditText> inputs;
+    ArrayList<EditText> inputs = new ArrayList<EditText>();
     //button to calculate grade
     Button calculate;
     //scrollview in case number of subjects specified is big number and doesn't fit on mobile screen 
