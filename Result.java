@@ -4,13 +4,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.TextView;
+import android.widget.Button;
+import android.view.View;
+import android.view.View.OnClickListener
 import java.lang.Math;
 
-public class Result extends AppCompatActivity
+public class Result extends AppCompatActivity implements OnClickListener 
 {
-    //TextView to display number average and grade
+    //TextView to display number average and grade and button to return to home menu 
     TextView numResult;
     TextView gradeResult;
+    Button home;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -22,6 +26,9 @@ public class Result extends AppCompatActivity
         int check = extra.getInt("check");
         //round float to 2 decimal places 
         result = (float) (Math.round(result * 100.0) / 100.0);
+        //initilise home button
+        home = (Button) findViewById(R.id.homeButton);
+        home.setOnClickListener((OnClickListener)this);
         //initilise textviews 
         numResult = (TextView) findViewById(R.id.numResult);
         gradeResult = (TextView) findViewById(R.id.gradeResult);
