@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.dan.dcugradingcalculator.Compensation"
+    android:background="#06285A">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/rules_for_compensation"
+        android:id="@+id/rules_for_compensation"
+        android:textColor="#FFFFFF"
+        android:singleLine="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/to_apply_for_compensation_you_must_satisfy_the_following_rules"
+        android:id="@+id/rule1"
+        android:layout_marginTop="46dp"
+        android:textColor="#FFFFFF"
+        android:layout_below="@+id/rules_for_compensation"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/a_failed_module_can_apos_t_be_lower_than_35"
+        android:id="@+id/rule2"
+        android:layout_below="@+id/rule1"
+        android:layout_alignLeft="@+id/rule1"
+        android:layout_alignStart="@+id/rule1"
+        android:layout_marginTop="23dp"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/your_overall_average_has_to_be_minimum_45"
+        android:id="@+id/rule3"
+        android:layout_below="@+id/rule2"
+        android:layout_alignLeft="@+id/rule2"
+        android:layout_alignStart="@+id/rule2"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/you_can_apos_t_fail_more_than_10_module_credits"
+        android:id="@+id/rule4"
+        android:layout_below="@+id/rule3"
+        android:layout_alignLeft="@+id/rule3"
+        android:layout_alignStart="@+id/rule3"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/you_must_be_taking_the_module_for_the_first_time_i_e_you_can_apos_t_get_compensation_on_a_module_you_are_repeating"
+        android:id="@+id/rule5"
+        android:layout_below="@+id/rule4"
+        android:layout_alignLeft="@+id/rule4"
+        android:layout_alignStart="@+id/rule4"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/note_even_though_these_are_the_official_standards_for_compensation_exceptions_have_been_made_by_lecturers_in_the_past"
+        android:id="@+id/note"
+        android:textColor="#FFFFFF"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>
