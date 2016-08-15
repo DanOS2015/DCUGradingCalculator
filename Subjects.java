@@ -28,6 +28,9 @@ public class Subjects extends AppCompatActivity implements OnClickListener
     ScrollView sv;
     //use this to display message if error encountered 
     TextView error;
+    //use later to get values from previous activity
+    int result;
+    int credits;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -45,6 +48,10 @@ public class Subjects extends AppCompatActivity implements OnClickListener
         LinearLayout.LayoutParams calParams = new LinearLayout.LayoutParams(
                 FILL_PARENT,
                 LayoutParams.WRAP_CONTENT);
+        //get numOfSubjects and numOfCredits integer from previous activity 
+        Bundle extra = getIntent().getExtras();
+        result = extra.getInt("result");
+        credits = extra.getInt("credits");        
         //initilise scrollview        
         sv = new ScrollView(this);
         //make layout for instructions at top of activity 
@@ -53,6 +60,7 @@ public class Subjects extends AppCompatActivity implements OnClickListener
         //create instructions on top of activity for users to follow and add it to view
         TextView instructions = new TextView(this);
         top.addView(instructions);
+        instructions.setTextColor(Color.parseColor("#ffffff"));
         instructions.setText("Enter your results along with the corresponding credits for each module (60 credits in total)");
         instructions.setGravity(Gravity.CENTER);
         layout.addView(top);
@@ -60,9 +68,6 @@ public class Subjects extends AppCompatActivity implements OnClickListener
         calculate = new Button(this);
         calculate.setText("Calculate");
         calculate.setLayoutParams(calParams);
-        //get numOfSubjects integer from previous activity 
-        Bundle extra = getIntent().getExtras();
-        int result = extra.getInt("result");
         //for loop to generate subject fields to enter grades 
         for (int i=0; i < result; i++)
         {
@@ -73,10 +78,12 @@ public class Subjects extends AppCompatActivity implements OnClickListener
             //make edittexts, set their input type to number, and add them to array 
             EditText numResult = new EditText(Subjects.this);
             numResult.setInputType(InputType.TYPE_CLASS_NUMBER);
+            numResult.setTextColor(Color.parseColor("#ffffff"));
             inputs.add(numResult);
             numResult.setGravity(Gravity.CENTER);
             EditText gradeResult = new EditText(Subjects.this);
             gradeResult.setInputType(InputType.TYPE_CLASS_NUMBER);
+            gradeResult.setTextColor(Color.parseColor("#ffffff"));
             inputs.add(gradeResult);
             //set the gravity of the edittexts to center 
             gradeResult.setGravity(Gravity.CENTER);
@@ -109,55 +116,63 @@ public class Subjects extends AppCompatActivity implements OnClickListener
     @Override
     public void onClick(View v)
     {
-        float num = 0;
-        float cred = 0;
-        float total = 0;
-        float grade = 0;
-        //make arrayliset to hold failed subjects, use this later to calculate compensation 
-        ArrayList<Float> failed = new ArrayList<>();
-        //use check for faileded subject 
-        int check = 0;
-        boolean failCheck = true;
-        for (int i = 0; i < inputs.size(); i = i + 2)
+        //try and catch to handle exceptions 
+        try
         {
-            //check if edittexts are empty 
-            if(TextUtils.isEmpty(inputs.get(i).getText().toString()) || TextUtils.isEmpty(inputs.get(i+1).getText().toString()))
+            float num = 0;
+            float cred = 0;
+            float total = 0;
+            float grade = 0;
+            //make arrayliset to hold failed subjects, use this later to calculate compensation 
+            ArrayList<Float> failed = new ArrayList<>();
+            //use check for faileded subject 
+            int check = 0;
+            boolean failCheck = true;
+            for (int i = 0; i < inputs.size(); i = i + 2)
             {
-                error.setText("ERROR: PLEASE FILL IN ALL TEXT FIELDS");
-                return;
+                //check if edittexts are empty 
+                if(TextUtils.isEmpty(inputs.get(i).getText().toString()) || TextUtils.isEmpty(inputs.get(i+1).getText().toString()))
+                {
+                    error.setText("ERROR: PLEASE FILL IN ALL TEXT FIELDS");
+                    return;
+                }
+                //check if all entries are valid 
+                else if(!checkValid(inputs))
+                {
+                    error.setText("ERROR: PLEASE ENTER VALID NUMBERS, RESULTS BETWEEN 0 AND 100 AND CREDITS ADDING UP TO 60");
+                    return;
+                }
+                num = Float.parseFloat(inputs.get(i).getText().toString());
+                cred = Float.parseFloat(inputs.get(i + 1).getText().toString());
+                //if subject is failed set checks and add subject and credit to arraylist 
+                if (num <= 39.0)
+                {
+                    check = 1;
+                    failCheck = false;
+                    failed.add(num);
+                    failed.add(cred);
+                }
+                //multiply grade by corresponding credit and add it to total 
+                total = num * cred;
+                grade += total;
             }
-            //check if all entries are valid 
-            else if(!checkValid(inputs))
+            //divide total by 60 to get average grade 
+            grade = grade / credits;
+            //use checkComp function to see if can pass by compensation 
+            if ((!failCheck) && (checkComp(failed, grade)))
             {
-                error.setText("ERROR: PLEASE ENTER VALID NUMBERS, RESULTS BETWEEN 0 AND 100 AND CREDITS ADDING UP TO 60");
-                return;
+                check = 2;
             }
-            num = Float.parseFloat(inputs.get(i).getText().toString());
-            cred = Float.parseFloat(inputs.get(i + 1).getText().toString());
-            //if subject is failed set checks and add subject and credit to arraylist 
-            if (num <= 39.0)
-            {
-                check = 1;
-                failCheck = false;
-                failed.add(num);
-                failed.add(cred);
-            }
-            //multiply grade by corresponding credit and add it to total 
-            total = num * cred;
-            grade += total;
+            //send results to next activity 
+            Intent i = new Intent(this, Result.class);
+            i.putExtra("grade", grade);
+            i.putExtra("check", check);
+            startActivity(i);
         }
-        //divide total by 60 to get average grade 
-        grade = grade / 60;
-        //use checkComp function to see if can pass by compensation 
-        if ((!failCheck) && (checkComp(failed, grade)))
+        catch(Exception e)
         {
-            check = 2;
-        }
-        //send results to next activity 
-        Intent i = new Intent(this, Result.class);
-        i.putExtra("grade", grade);
-        i.putExtra("check", check);
-        startActivity(i);
+           error.setText("ERROR: Exception caught, please review validity of inputs or please restart the application"); 
+        }    
 
     }
     //function to check compensation, 
@@ -169,7 +184,7 @@ public class Subjects extends AppCompatActivity implements OnClickListener
         for(int i = 0; i < subjects.size(); i=i+2)
         {
             //failed subject has to be min 35
-            if(subjects.get(i) < 35.0)
+            if(subjects.get(i) <= 34.0)
                 return false;
         }
         //number of credits failed has to be maximum 10 
@@ -195,7 +210,7 @@ public class Subjects extends AppCompatActivity implements OnClickListener
             tmp = Float.parseFloat(inputs.get(i+1).getText().toString());
             total += tmp;
         }
-        if(total > 60 || total < 60)
+        if(total > credits || total < credits)
             return false;
 
         return true;
