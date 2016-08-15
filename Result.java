@@ -63,4 +63,11 @@ public class Result extends AppCompatActivity implements OnClickListener
                 gradeResult.setText("Third Class Honours");
         }
     }
+    //button to return home
+    @Override
+    public void onClick(View v)
+    {
+        Intent i = new Intent(this, Menu.class);
+        startActivity(i);
+    }
 }
