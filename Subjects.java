@@ -94,7 +94,7 @@ public class Subjects extends AppCompatActivity implements OnClickListener
             gradeResult.setHint("Credit");
             //add the edittexts and the textviews for subjects to the row view then add the row view to the main layout 
             row.addView(subject);
-            subject.setText("Subject " + (i+1) + ":");
+            subject.setText("Module " + (i+1) + ":");
             row.addView(numResult);
             row.addView(gradeResult);
             layout.addView(row);
