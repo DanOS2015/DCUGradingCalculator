@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="How many subjects?"
+        android:text="How many modules?"
         android:id="@+id/subjectQ"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
