@@ -45,7 +45,19 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
             }
             //get value from edittext and covert it to an integer 
             int numOfSubjects = Integer.parseInt(subInput.getText().toString());
+            //numOfSubjects can't be 0 or bigger than 12
+            if(numOfSubjects == 0 || numOfSubjects > 12)
+            {
+                error.setText("ERROR: Number of modules can't be 0 or bigger than 12");
+                return;
+            }
             int numOfCredits = Integer.parseInt(credInput.getText().toString());
+            //numOfCredits can't be 0 or bigger than 100
+            if(numOfCredits == 0 || numOfCredits > 100)
+            {
+                error.setText("ERROR: Number of credits can't be 0 or bigger than 100");
+                return;
+            }
             Intent i = new Intent(this, Subjects.class);
             //send numOfSubjects and numOfCredits to next activity
             i.putExtra("result", numOfSubjects);
